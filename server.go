@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/csv"
 	"encoding/json"
 	"html/template"
 	"net/http"
@@ -31,22 +30,16 @@ func serveHTML(w http.ResponseWriter, r *http.Request) {
 		returnTemplate(w)
 	}
 	r.ParseForm()
-	TITLE.Surname = r.FormValue("surname")
-	TITLE.Name = r.FormValue("name")
-	TITLE.Title = r.FormValue("title")
-}
+	title := r.FormValue("title")
+	file, err := os.OpenFile("templates/title.csv", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	if err != nil {
+		http.Error(w, "Ошибка при открытии файла", http.StatusInternalServerError)
+		return
+	}
+	defer file.Close()
 
-func serveCSV(w http.ResponseWriter, r *http.Request) {
-
-	w.Header().Set("Content-Type", "text/csv")
-	// w.Header().Set("Content-Disposition", "attachment; filename=\"title.csv\"")
-
-	writer := csv.NewWriter(w)
-	writer.Comma = rune(';')
-	defer writer.Flush()
-
-	if err := writer.Write(TITLE.likeSliceOfStrings()); err != nil {
-		http.Error(w, "Ошибка при записи CSV", http.StatusInternalServerError)
+	if err := os.WriteFile("templates/title.csv", []byte(title+"\n"), 0644); err != nil {
+		http.Error(w, "Ошибка при записи в файл", http.StatusInternalServerError)
 		return
 	}
 }
