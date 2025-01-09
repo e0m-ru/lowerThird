@@ -12,10 +12,14 @@ import (
 func main() {
 	http.HandleFunc("/", serveHTML)
 	http.HandleFunc("/titles.csv", func(w http.ResponseWriter, r *http.Request) {
-		http.ServeFile(w, r, "templates/titles.csv")
+		http.ServeFile(w, r, "csv/titles.csv")
 	})
+
+	// Serve static files from the /template directory
+	http.Handle("/template/", http.StripPrefix("/template/", http.FileServer(http.Dir("template"))))
+
 	http.HandleFunc("/title.csv", func(w http.ResponseWriter, r *http.Request) {
-		http.ServeFile(w, r, "templates/title.csv")
+		http.ServeFile(w, r, "csv/title.csv")
 	})
 
 	fmt.Println("Сервер запущен на :3456")

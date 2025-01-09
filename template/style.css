@@ -1,0 +1,34 @@
+ body,
+ html {
+     margin: 0;
+     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+ }
+
+ #container {
+    margin: 1rem 3rem;
+ }
+
+#input {
+    font-size: x-large;
+    border: 1px solid #ccc;
+    padding: 0 1rem;
+    border-radius: .333rem;
+    overflow: hidden;
+}
+
+
+#suggestions {
+    list-style-type: none;
+    margin: 0 1rem;
+    padding: 0;
+    color: #ccc;
+}
+
+#suggestions li {
+    cursor: pointer;
+ }
+
+ #suggestions li.highlight {
+    color: #FFF;
+    background-color: #3874d5;
+ }
