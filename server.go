@@ -42,3 +42,7 @@ func serveHTML(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 }
+
+func sendCommand(w http.ResponseWriter, r *http.Request) {
+	goTitle()
+}

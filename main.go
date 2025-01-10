@@ -11,6 +11,7 @@ import (
 // If the server fails to start, it logs the error to the console.
 func main() {
 	http.HandleFunc("/", serveHTML)
+	http.HandleFunc("/send-command", sendCommand)
 	http.HandleFunc("/titles.csv", func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, "csv/titles.csv")
 	})

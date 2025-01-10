@@ -13,7 +13,7 @@
         <div id="input">Начните вводить текст</div>
         <ul id="suggestions"></ul>
     </div>
-
+<address style="position:absolute; bottom: 0;">Нажмите Control + Space для вывода титра в эфир</address>
     <script>
         const inputDiv = document.getElementById('input');
         const suggestions = document.getElementById('suggestions');
@@ -28,7 +28,19 @@
             });
 
         document.addEventListener('keydown', function (e) {
-            if (/^[a-zA-Zа-яА-Я 0-9]$/.test(e.key)) {
+            if (event.ctrlKey && event.code === 'Space') {
+                fetch('/send-command', {
+                    method: 'POST'
+                }).then(response => {
+                    if (response.ok) {
+                        console.log('Command sent successfully');
+                    } else {
+                        console.error('Error sending command');
+                    }
+                }).catch(error => {
+                    console.error('Error:', error);
+                });
+            } else if (/^[a-zA-Zа-яА-Я 0-9]$/.test(e.key)) {
             query += e.key;
             } else if (e.key === 'Backspace') {
             query = query.slice(0, -1);
